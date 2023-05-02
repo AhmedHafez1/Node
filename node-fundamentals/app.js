@@ -6,7 +6,7 @@ const server = http.createServer((req, res) => {
     return;
   }
   if (req.url === '/about') {
-    res.end('About Page');
+    res.end('About Page modified');
     return;
   }
   res.end(`<h1>Page not found</h1>`);
