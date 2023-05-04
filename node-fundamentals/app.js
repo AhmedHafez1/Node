@@ -1,15 +1,27 @@
-const http = require('http');
+const { readFile } = require('fs');
 
-const server = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.end('Home Page');
-    return;
-  }
-  if (req.url === '/about') {
-    res.end('About Page modified');
-    return;
-  }
-  res.end(`<h1>Page not found</h1>`);
-});
+const getText = (path) => {
+  return new Promise((res, rej) => {
+    readFile(path, 'utf8', (data, err) => {
+      if (err) rej(err);
+      else res(data);
+    });
+  });
+};
 
-server.listen(5000);
+// With then/catch chaining
+getText('./content/file1.txt')
+  .then((text) => console.log(text))
+  .catch((err) => console.error(err));
+
+// With async/await
+async function printText() {
+  try {
+    const firstText = await getText('./content/file1.txt');
+    console.log(firstText);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+printText();
