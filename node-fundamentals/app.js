@@ -1,9 +1,11 @@
-const EventEmitter = require('events');
-const emitter = new EventEmitter();
+const http = require('http');
 
-emitter.on('fired', (children) =>
-  console.log(`Event fired successfully. Thanks ${children}`)
-);
-emitter.on('fired', () => console.log('Event fired successfully'));
+const server = http.createServer();
 
-emitter.emit('fired', 'Omar Mariam Yosuf');
+server.on('request', (req, res) => {
+  res.end('Beutiful');
+});
+
+server.listen(5000, () => {
+  console.log('Server is listening on port 5000');
+});
