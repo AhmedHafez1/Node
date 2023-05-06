@@ -1,8 +1,11 @@
+const http = require('http');
 const { createReadStream } = require('fs');
 
-const stream = createReadStream('./content/big-file.txt', {
-  highWaterMark: 80,
-  encoding: 'utf8',
-});
-
-stream.on('data', (chunk) => console.log(chunk));
+http
+  .createServer((request, response) => {
+    const stream = createReadStream('./content/big-file.txt', {
+      encoding: 'utf8',
+    });
+    stream.on('open', () => stream.pipe(response));
+  })
+  .listen(5000, () => console.log('Server running at 5000'));
